@@ -131,6 +131,81 @@
       </div>
       <!--Grid row-->
 
+      <!-- recently viewed -->
+      <h1>Recently Viewed </h1>
+        <div class="row wow fadeIn">
+        {% if recent %}
+        {% for r in recent %}
+        <!--Grid column-->
+        <div class="col-lg-3 col-md-6 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card image-->
+            <div class="view overlay">
+              {% comment %} <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg"
+                class="card-img-top" alt=""> {% endcomment %}
+              <img src="{{ r.image.url }}" class="card-img-top ></img>
+              <a href=" {{ r.get_absolute_url }}">
+              <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+              <!--Category & Title-->
+              <a href="{{ r.get_absolute_url }}" class="grey-text">
+                <h5>{{ r.get_category_display }}</h5>
+              </a>
+              <h5>
+                <strong>
+                  <a href="{{ r.get_absolute_url }}" class="dark-grey-text">{{ r.title }}
+                    <span class="badge badge-pill {{ r.get_label_display }}-color">
+                      {% if r.get_label_display == 'primary' %}
+                      NEW
+                      {% elif r.get_label_display == 'secondary' %}
+                      bestseller
+                      {% elif r.get_label_display == 'danger' %}
+                      limited
+                      {% endif %}
+
+                    </span>
+                  </a>
+                </strong>
+              </h5>
+
+              <h4 class="font-weight-bold blue-text">
+                <strong>
+                  {% if r.discount_price %}
+                  {{ r.discount_price }}
+                  {% else%}
+                  {{ r.price }}
+                  {% endif %}$
+
+                </strong>
+              </h4>
+              <a href="{{ r.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </a>
+
+            </div>
+            <!--Card content-->
+
+          </div>
+          <!--Card-->
+
+        </div>
+        <!--Grid column-->
+        {% endfor %}
+        {% endif %}
+
+
+
+      </div>
+      <!--recent viewed end-->
+
     </section>
     <!--Section: Products v.3-->
 

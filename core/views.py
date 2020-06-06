@@ -12,11 +12,28 @@ import stripe
 stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
 
+"""
 class HomeListView(ListView):
     model = Item
     context_object_name = 'items'
     paginate_by = 4
     template_name = 'home.html'
+
+"""
+
+def HomeListView(request):
+    items = Item.objects.all()
+    recent = None
+    try:
+       slug = request.COOKIES.get('pro').split(" ")
+       recent = Item.objects.filter(slug__in= slug)
+    except: 
+        pass   
+        
+    
+    
+    
+    return render(request, 'home.html', {'items': items, 'recent':recent})
 
 
 class CartView(LoginRequiredMixin, View):
@@ -139,12 +156,22 @@ class PaymentView(View):
             messages.error(self.request, f"{e.error.message}")
             return redirect("/")
 
+def ProouctDetailView(request, slug):
+    item = Item.objects.get(slug=slug)
+    response = render(request, 'product.html', {'item' : item } )
+    temp = request.COOKIES.get('pro', None)
 
+    response.set_cookie('pro','{0} {1}'.format(temp, slug))
+    print(type(request.COOKIES.get('pro')))
+    return response
+
+"""
 class ProouctDetailView(DetailView):
     model = Item
     context_object_name = 'item'
     template_name = 'product.html'
-
+    
+"""
 
 @login_required
 def add_to_cart(request, slug):
