@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
+import time
 
 Category_Choices = (
     ('VG', 'Vegetables'),
@@ -35,7 +36,9 @@ class Item(models.Model):
 
     def remove_from_cart_url(self):
         return reverse("core:remove_from_cart", kwargs={"slug": self.slug})
-
+    
+    def slow_runner(self):
+        time.sleep(5)
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

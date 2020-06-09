@@ -29,10 +29,6 @@ def HomeListView(request):
        recent = Item.objects.filter(slug__in= slug)
     except: 
         pass   
-        
-    
-    
-    
     return render(request, 'home.html', {'items': items, 'recent':recent})
 
 
@@ -155,14 +151,15 @@ class PaymentView(View):
         except Exception as e:
             messages.error(self.request, f"{e.error.message}")
             return redirect("/")
+import datetime
 
 def ProouctDetailView(request, slug):
     item = Item.objects.get(slug=slug)
     response = render(request, 'product.html', {'item' : item } )
     temp = request.COOKIES.get('pro', None)
 
-    response.set_cookie('pro','{0} {1}'.format(temp, slug))
-    print(type(request.COOKIES.get('pro')))
+    response.set_cookie('pro','{0} {1}'.format(temp, slug),max_age=None)
+    
     return response
 
 """

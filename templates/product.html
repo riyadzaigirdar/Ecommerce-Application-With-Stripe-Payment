@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{% load cache %}
 {% block content %}
 
 <!--Main layout-->
@@ -42,6 +42,13 @@
           {% else %}
           <span>${{ item.price }}</span>
           {% endif %}
+          
+          {% cache 120 slow_runner item.id %}
+          <span>${{ item.slow_runner }}</span>
+          {% endcache %}
+          
+          
+          
 
           <p class="lead font-weight-bold">Description</p>
 
